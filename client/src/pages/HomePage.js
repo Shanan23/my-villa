@@ -31,6 +31,10 @@ const HomePage = () => {
   console.log('HomePage - loading:', loading);
   console.log('HomePage - featuredVillas type:', typeof featuredVillas);
   console.log('HomePage - featuredVillas isArray:', Array.isArray(featuredVillas));
+  
+  // Ensure featuredVillas is always an array
+  const safeFeaturedVillas = Array.isArray(featuredVillas) ? featuredVillas : [];
+  console.log('HomePage - safeFeaturedVillas:', safeFeaturedVillas);
 
   const heroStats = [
     { label: 'Luxury Villas', value: '500+' },
@@ -240,8 +244,8 @@ const HomePage = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {Array.isArray(featuredVillas) && featuredVillas.length > 0 ? (
-                featuredVillas.slice(0, 6).map((villa, index) => (
+              {safeFeaturedVillas.length > 0 ? (
+                safeFeaturedVillas.slice(0, 6).map((villa, index) => (
                   <motion.div
                     key={villa._id || index}
                     initial={{ opacity: 0, y: 30 }}

@@ -138,14 +138,27 @@ export const VillaProvider = ({ children }) => {
   const fetchFeaturedVillas = useCallback(async () => {
     try {
       setLoading(true);
+      console.log('Fetching featured villas...');
+      
       const response = await axios.get('/api/villas/featured/list');
       console.log('Featured villas response:', response.data);
+      console.log('Response type:', typeof response.data);
+      console.log('Response isArray:', Array.isArray(response.data));
       
       // Ensure we have an array of villas
-      const villas = Array.isArray(response.data) ? response.data : 
-                    response.data.villas ? response.data.villas : 
-                    response.data.data ? response.data.data : [];
+      let villas = [];
+      if (Array.isArray(response.data)) {
+        villas = response.data;
+      } else if (response.data && response.data.villas && Array.isArray(response.data.villas)) {
+        villas = response.data.villas;
+      } else if (response.data && response.data.data && Array.isArray(response.data.data)) {
+        villas = response.data.data;
+      } else {
+        console.warn('Unexpected response format:', response.data);
+        villas = [];
+      }
       
+      console.log('Processed villas:', villas);
       dispatch({ type: 'SET_FEATURED_VILLAS', payload: villas });
     } catch (error) {
       console.error('Error fetching featured villas:', error);
