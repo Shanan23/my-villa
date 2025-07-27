@@ -9,6 +9,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Add bash for healthcheck
+RUN apk add --no-cache bash
+
 # Copy source code
 COPY . .
 
