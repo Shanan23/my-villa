@@ -24,11 +24,13 @@ const AdminDashboard = () => {
   });
 
   useEffect(() => {
+    console.log('🔄 AdminDashboard loaded - Updated version!');
     fetchVillas();
   }, [fetchVillas]);
 
   useEffect(() => {
     if (villas) {
+      console.log('📊 Updating stats with villas:', villas.length);
       setStats({
         totalVillas: villas.length,
         activeVillas: villas.filter(v => v.status === 'active').length,
@@ -95,8 +97,15 @@ const AdminDashboard = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-          <p className="text-gray-600">Welcome back, {user?.username || 'Admin'}! Here's what's happening with your villa platform.</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
+              <p className="text-gray-600">Welcome back, {user?.username || 'Admin'}! Here's what's happening with your villa platform.</p>
+            </div>
+            <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+              ✅ Updated Dashboard
+            </div>
+          </div>
         </div>
 
         {/* Stats Cards */}

@@ -1,0 +1,5 @@
+Version: 2.0.0
+Updated: 2025-07-27
+Dashboard: Updated with full features
+Villa Management: Complete with CRUD operations
+API: Fixed JSON responses 
