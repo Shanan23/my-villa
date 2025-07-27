@@ -122,7 +122,7 @@ const VillaCard = ({ villa }) => {
         </div>
 
         {/* Amenities */}
-        {villa.amenities && villa.amenities.length > 0 && (
+        {villa.amenities && Array.isArray(villa.amenities) && villa.amenities.length > 0 && (
           <div className="flex items-center space-x-2 mb-4">
             {villa.amenities.slice(0, 3).map((amenity, index) => {
               const Icon = getAmenityIcon(amenity);
