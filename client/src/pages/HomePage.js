@@ -26,6 +26,12 @@ const HomePage = () => {
     fetchFeaturedVillas();
   }, [fetchFeaturedVillas]);
 
+  // Debug logging
+  console.log('HomePage - featuredVillas:', featuredVillas);
+  console.log('HomePage - loading:', loading);
+  console.log('HomePage - featuredVillas type:', typeof featuredVillas);
+  console.log('HomePage - featuredVillas isArray:', Array.isArray(featuredVillas));
+
   const heroStats = [
     { label: 'Luxury Villas', value: '500+' },
     { label: 'Happy Guests', value: '10K+' },
@@ -234,17 +240,23 @@ const HomePage = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {Array.isArray(featuredVillas) && featuredVillas.slice(0, 6).map((villa, index) => (
-                <motion.div
-                  key={villa._id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <VillaCard villa={villa} />
-                </motion.div>
-              ))}
+              {Array.isArray(featuredVillas) && featuredVillas.length > 0 ? (
+                featuredVillas.slice(0, 6).map((villa, index) => (
+                  <motion.div
+                    key={villa._id || index}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <VillaCard villa={villa} />
+                  </motion.div>
+                ))
+              ) : (
+                <div className="col-span-full text-center py-12">
+                  <p className="text-gray-500">No featured villas available at the moment.</p>
+                </div>
+              )}
             </div>
           )}
 

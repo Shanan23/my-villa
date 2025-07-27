@@ -139,9 +139,19 @@ export const VillaProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await axios.get('/api/villas/featured/list');
-      dispatch({ type: 'SET_FEATURED_VILLAS', payload: response.data });
+      console.log('Featured villas response:', response.data);
+      
+      // Ensure we have an array of villas
+      const villas = Array.isArray(response.data) ? response.data : 
+                    response.data.villas ? response.data.villas : 
+                    response.data.data ? response.data.data : [];
+      
+      dispatch({ type: 'SET_FEATURED_VILLAS', payload: villas });
     } catch (error) {
+      console.error('Error fetching featured villas:', error);
       setError(error.response?.data?.message || 'Failed to fetch featured villas');
+      // Set empty array as fallback
+      dispatch({ type: 'SET_FEATURED_VILLAS', payload: [] });
     }
   }, [dispatch, setLoading, setError]);
 
