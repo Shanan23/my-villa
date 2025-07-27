@@ -64,15 +64,16 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       if (state.token) {
         try {
-          const response = await axios.get('/api/auth/verify');
+          const response = await axios.get('/api/auth/profile');
           dispatch({
             type: 'LOGIN_SUCCESS',
             payload: {
-              user: response.data.user,
+              user: response.data,
               token: state.token,
             },
           });
         } catch (error) {
+          console.error('Auth check failed:', error);
           dispatch({ type: 'LOGOUT' });
         }
       } else {

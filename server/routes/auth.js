@@ -226,11 +226,19 @@ router.put('/change-password', authenticateToken, [
 });
 
 // Verify token
-router.get('/verify', authenticateToken, (req, res) => {
-  res.json({ 
-    message: 'Token is valid', 
-    user: req.user 
-  });
+router.get('/verify', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json({ 
+      message: 'Token is valid', 
+      user: user 
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Error verifying token', error: error.message });
+  }
 });
 
 module.exports = router; 

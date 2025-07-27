@@ -20,6 +20,7 @@ import AdminVillas from './pages/admin/Villas';
 import AdminUsers from './pages/admin/Users';
 import AdminVillaForm from './pages/admin/VillaForm';
 import NotFoundPage from './pages/NotFoundPage';
+import DebugPage from './pages/DebugPage';
 
 // Protected Route Component
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -50,6 +51,7 @@ function App() {
                   <Route path="/villas/:id" element={<VillaDetailPage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />
+                  <Route path="/debug" element={<DebugPage />} />
                   
                   {/* Admin Routes */}
                   <Route 
