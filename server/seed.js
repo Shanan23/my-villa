@@ -324,7 +324,7 @@ const sampleUsers = [
 async function seedDatabase() {
   try {
     // Connect to MongoDB
-    const mongoUri = 'mongodb://admin:admin123@192.168.101.100:27018/villa-catalog?authSource=admin';
+    const mongoUri = 'mongodb://admin:admin123@172.30.220.43:27018/villa-catalog?authSource=admin';
     console.log('Connecting to MongoDB:', mongoUri);
     
     await mongoose.connect(mongoUri);

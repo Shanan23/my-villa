@@ -59,7 +59,7 @@ A modern villa catalog website with CMS functionality built using React.js, Mong
    Create a `.env` file in the server directory:
    ```env
    PORT=5000
-   MONGODB_URI=mongodb://192.168.101.100:27018/villa-catalog
+   MONGODB_URI=mongodb://172.30.220.43:27018/villa-catalog
    JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
    NODE_ENV=development
    ```

@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // MongoDB Connection
-const mongoUri = process.env.MONGODB_URI || 'mongodb://192.168.101.100:27018/villa-catalog';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://172.30.220.43:27018/villa-catalog';
 console.log('Connecting to MongoDB:', mongoUri);
 mongoose.connect(mongoUri)
 .then(() => console.log('MongoDB connected successfully'))
