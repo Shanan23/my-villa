@@ -44,8 +44,8 @@ const villaReducer = (state, action) => {
     case 'SET_VILLAS':
       return {
         ...state,
-        villas: action.payload.villas,
-        pagination: action.payload.pagination,
+        villas: action.payload.villas || [],
+        pagination: action.payload.pagination || state.pagination,
         loading: false,
         error: null,
       };
@@ -79,19 +79,19 @@ const villaReducer = (state, action) => {
     case 'ADD_VILLA':
       return {
         ...state,
-        villas: [action.payload, ...state.villas],
+        villas: [action.payload, ...(state.villas || [])],
       };
     case 'UPDATE_VILLA':
       return {
         ...state,
-        villas: state.villas.map((villa) =>
+        villas: (state.villas || []).map((villa) =>
           villa._id === action.payload._id ? action.payload : villa
         ),
       };
     case 'DELETE_VILLA':
       return {
         ...state,
-        villas: state.villas.filter((villa) => villa._id !== action.payload),
+        villas: (state.villas || []).filter((villa) => villa._id !== action.payload),
       };
     default:
       return state;
@@ -124,13 +124,31 @@ export const VillaProvider = ({ children }) => {
       dispatch({
         type: 'SET_VILLAS',
         payload: {
-          villas: response.data.villas,
-          pagination: response.data.pagination,
+          villas: response.data.villas || [],
+          pagination: response.data.pagination || {
+            currentPage: 1,
+            totalPages: 1,
+            totalItems: 0,
+            itemsPerPage: 12,
+          },
         },
       });
     } catch (error) {
       setError(error.response?.data?.message || 'Failed to fetch villas');
       toast.error('Failed to fetch villas');
+      // Ensure villas is always an array even on error
+      dispatch({
+        type: 'SET_VILLAS',
+        payload: {
+          villas: [],
+          pagination: {
+            currentPage: 1,
+            totalPages: 1,
+            totalItems: 0,
+            itemsPerPage: 12,
+          },
+        },
+      });
     }
   }, [state.filters, dispatch, setLoading, setError]);
 
