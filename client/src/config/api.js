@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 // API Configuration
 export const API_CONFIG = {
   BASE_URL: 'https://api-villa.nahsbyte.my.id',
@@ -20,9 +22,6 @@ export const API_CONFIG = {
     }
   }
 };
-
-// Configure axios defaults
-import axios from 'axios';
 
 axios.defaults.baseURL = API_CONFIG.BASE_URL;
 axios.defaults.timeout = 10000; // 10 seconds
