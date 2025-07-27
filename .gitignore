@@ -1,2 +1,4 @@
 client/node_modules
 node_modules
+*-lock.json
+server/*-lock.json

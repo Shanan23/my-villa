@@ -90,8 +90,11 @@ router.post('/login', [
   body('password').notEmpty().withMessage('Password is required')
 ], async (req, res) => {
   try {
+    console.log('Login attempt for email:', req.body.email);
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log('Validation errors:', errors.array());
       return res.status(400).json({ errors: errors.array() });
     }
 
@@ -100,17 +103,22 @@ router.post('/login', [
     // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
+      console.log('User not found for email:', email);
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
+    console.log('User found:', { username: user.username, role: user.role, isActive: user.isActive });
+
     // Check if user is active
     if (!user.isActive) {
+      console.log('User account is deactivated:', email);
       return res.status(401).json({ message: 'Account is deactivated' });
     }
 
     // Verify password
     const isValidPassword = await user.comparePassword(password);
     if (!isValidPassword) {
+      console.log('Invalid password for user:', email);
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
@@ -129,6 +137,8 @@ router.post('/login', [
       { expiresIn: '24h' }
     );
 
+    console.log('Login successful for user:', user.username);
+    
     res.json({
       message: 'Login successful',
       token,
@@ -141,6 +151,7 @@ router.post('/login', [
       }
     });
   } catch (error) {
+    console.error('Login error:', error);
     res.status(500).json({ message: 'Error logging in', error: error.message });
   }
 });
