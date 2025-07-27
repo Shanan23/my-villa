@@ -2,6 +2,33 @@ const express = require('express');
 const router = express.Router();
 const Villa = require('../models/Villa');
 const { body, validationResult } = require('express-validator');
+const jwt = require('jsonwebtoken');
+
+// Middleware to verify JWT token
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'Access token required' });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid or expired token' });
+    }
+    req.user = user;
+    next();
+  });
+};
+
+// Middleware to check admin/editor role
+const requireAdmin = (req, res, next) => {
+  if (req.user.role !== 'admin' && req.user.role !== 'editor') {
+    return res.status(403).json({ message: 'Admin/Editor access required' });
+  }
+  next();
+};
 
 // Get all villas with pagination and filtering
 router.get('/', async (req, res) => {
@@ -90,7 +117,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create new villa (admin only)
-router.post('/', [
+router.post('/', authenticateToken, requireAdmin, [
   body('title').notEmpty().withMessage('Title is required'),
   body('description').notEmpty().withMessage('Description is required'),
   body('price').isNumeric().withMessage('Price must be a number'),
@@ -117,7 +144,7 @@ router.post('/', [
 });
 
 // Update villa (admin only)
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const villa = await Villa.findByIdAndUpdate(
       req.params.id,
@@ -136,7 +163,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete villa (admin only)
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const villa = await Villa.findByIdAndDelete(req.params.id);
     if (!villa) {

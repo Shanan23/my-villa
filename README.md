@@ -21,11 +21,13 @@ A modern villa catalog website with CMS functionality built using React.js, Mong
 - **Security**: JWT authentication, password hashing, input validation
 
 ### CMS Features
-- **Villa Management**: Add, edit, delete villas
-- **User Management**: Manage admin users and roles
-- **Image Management**: Upload and organize villa images
-- **Dashboard Analytics**: Overview of system statistics
+- **Villa Management**: Add, edit, delete villas with full CRUD operations
+- **User Management**: Complete user management with role assignment and status control
+- **Image Management**: Upload and organize villa images with main image selection
+- **Dashboard Analytics**: Overview of system statistics and recent activity
 - **Role-based Access**: Different permission levels (admin, editor, viewer)
+- **Advanced Filtering**: Search and filter villas by various criteria
+- **Real-time Updates**: Live updates with toast notifications
 
 ## 🚀 Quick Start
 
