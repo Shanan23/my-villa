@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useCallback } from 'react';
-import axios from 'axios';
+import axios from '../config/api';
 import toast from 'react-hot-toast';
 
 const VillaContext = createContext();

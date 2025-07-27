@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://api-villa.nahsbyte.my.id/api';
 
 async function testAPI() {
   console.log('🧪 Testing Villa API...\n');
@@ -12,35 +12,54 @@ async function testAPI() {
     console.log('✅ Health Check:', healthResponse.data);
     console.log('');
 
-    // Test 2: Login with Editor
-    console.log('2. Testing Login with Editor...');
-    const loginResponse = await axios.post(`${API_BASE}/auth/login`, {
-      email: 'editor@villalux.com',
-      password: 'editor123'
+    // Test 2: Login with Admin
+    console.log('2. Testing Login with Admin...');
+    const adminLoginResponse = await axios.post(`${API_BASE}/auth/login`, {
+      email: 'admin@villalux.com',
+      password: 'admin123'
     });
-    console.log('✅ Login Response Status:', loginResponse.status);
-    console.log('✅ Login Response Headers:', loginResponse.headers['content-type']);
-    console.log('✅ Login Response Data:', {
-      message: loginResponse.data.message,
+    console.log('✅ Admin Login Response Status:', adminLoginResponse.status);
+    console.log('✅ Admin Login Response Headers:', adminLoginResponse.headers['content-type']);
+    console.log('✅ Admin Login Response Data:', {
+      message: adminLoginResponse.data.message,
       user: {
-        username: loginResponse.data.user?.username,
-        email: loginResponse.data.user?.email,
-        role: loginResponse.data.user?.role
+        username: adminLoginResponse.data.user?.username,
+        email: adminLoginResponse.data.user?.email,
+        role: adminLoginResponse.data.user?.role
       },
-      hasToken: !!loginResponse.data.token
+      hasToken: !!adminLoginResponse.data.token
     });
     console.log('');
 
-    // Test 3: Get Villas (should work without auth)
-    console.log('3. Testing Get Villas...');
+    // Test 3: Login with Editor
+    console.log('3. Testing Login with Editor...');
+    const editorLoginResponse = await axios.post(`${API_BASE}/auth/login`, {
+      email: 'editor@villalux.com',
+      password: 'editor123'
+    });
+    console.log('✅ Editor Login Response Status:', editorLoginResponse.status);
+    console.log('✅ Editor Login Response Headers:', editorLoginResponse.headers['content-type']);
+    console.log('✅ Editor Login Response Data:', {
+      message: editorLoginResponse.data.message,
+      user: {
+        username: editorLoginResponse.data.user?.username,
+        email: editorLoginResponse.data.user?.email,
+        role: editorLoginResponse.data.user?.role
+      },
+      hasToken: !!editorLoginResponse.data.token
+    });
+    console.log('');
+
+    // Test 4: Get Villas (should work without auth)
+    console.log('4. Testing Get Villas...');
     const villasResponse = await axios.get(`${API_BASE}/villas`);
     console.log('✅ Villas Response Status:', villasResponse.status);
     console.log('✅ Villas Response Headers:', villasResponse.headers['content-type']);
     console.log('✅ Villas Count:', villasResponse.data.villas?.length || 0);
     console.log('');
 
-    // Test 4: Get Featured Villas
-    console.log('4. Testing Get Featured Villas...');
+    // Test 5: Get Featured Villas
+    console.log('5. Testing Get Featured Villas...');
     const featuredResponse = await axios.get(`${API_BASE}/villas/featured/list`);
     console.log('✅ Featured Villas Response Status:', featuredResponse.status);
     console.log('✅ Featured Villas Response Headers:', featuredResponse.headers['content-type']);
